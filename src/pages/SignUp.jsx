@@ -2,7 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../firebase-config";
 
 const formSchema = yup.object().shape({
@@ -28,23 +33,21 @@ const SignUp = () => {
   });
 
   const signUpHandler = async (data) => {
-    console.log(data)
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(
-    //     auth,
-    //     data.email,
-    //     data.password
-    //   );
-    //   await userCredential.user.sendEmailVerification();
-    //   await signOut();
-    //   console.log("sent")
-    // } catch (err) {
-    //   console.log(err)
-    // }
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await updateProfile(auth.currentUser, {
+        displayName: data.fullName,
+      });
+      await sendEmailVerification(auth.currentUser);
+      console.log(auth.currentUser);
+      await signOut(auth);
+      console.log("sent");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    // <div className="container mx-auto min-h-screen">
     <div className="flex justify-center items-center min-h-screen">
       <div className="card w-full max-w-md shadow-sm">
         <div className="card-body">
@@ -105,7 +108,6 @@ const SignUp = () => {
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 
