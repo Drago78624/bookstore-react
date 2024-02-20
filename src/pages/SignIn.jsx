@@ -1,15 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signOut,
-  updateProfile,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required("Please enter an email"),
@@ -19,7 +14,12 @@ const formSchema = yup.object().shape({
     .min(8, "Password must be atleast 8 characters"),
 });
 
+console.log(auth.currentUser);
+
 const SignIn = () => {
+  const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -29,20 +29,45 @@ const SignIn = () => {
   });
 
   const signInHandler = async (data) => {
-    console.log(data);
-    // try {
-    //   await createUserWithEmailAndPassword(auth, data.email, data.password);
-    //   await updateProfile(auth.currentUser, {
-    //     displayName: data.fullName,
-    //   });
-    //   await sendEmailVerification(auth.currentUser);
-    //   console.log(auth.currentUser);
-    //   await signOut(auth);
-    //   console.log("sent");
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      console.log(auth.currentUser);
+      if (userCredential.user.emailVerified) {
+        setLoading(false);
+        navigate("/");
+      } else {
+        setLoading(false);
+        console.log("email not verified");
+        await signOut(auth);
+      }
+    } catch (err) {
+      setLoading(false);
+      setShowError(true);
+    }
   };
+
+  let buttonContent = "SIGN IN";
+  if (loading) {
+    buttonContent = (
+      <>
+        <span className="loading loading-dots loading-lg"></span>
+        SIGNING IN
+      </>
+    );
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowError(false);
+    }, 4000);
+
+    return () => clearTimeout(timeout);
+  }, [showError]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -72,13 +97,35 @@ const SignIn = () => {
                 {errors.password && errors.password?.message}
               </p>
             </div>
-            <button className="btn btn-accent w-full" type="submit">
-              Sign In
+            <button
+              className="btn btn-accent w-full"
+              type="submit"
+              disabled={loading}
+            >
+              {buttonContent}
             </button>
           </form>
-          <p className="text-center mt-4">
+          <p className="text-center mt-4 mb-10">
             Don't have an account? <Link to="/signup">Sign Up</Link>
           </p>
+          {showError && (
+            <div role="alert" className="alert alert-error">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Error! Bad email or password.</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -44,12 +44,10 @@ const SignUp = () => {
         displayName: data.fullName,
       });
       await sendEmailVerification(auth.currentUser);
-      console.log(auth.currentUser);
       await signOut(auth);
       setLoading(false);
       navigate("/email-verification");
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setShowError(true);
     }
@@ -68,7 +66,6 @@ const SignUp = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowError(false);
-      console.log("set");
     }, 4000);
 
     return () => clearTimeout(timeout);

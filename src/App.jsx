@@ -12,12 +12,17 @@ import SignUp from "./pages/SignUp.jsx";
 import Root from "./pages/Root.jsx";
 import MainLayout from "./pages/MainLayout.jsx";
 import EmailVerification from "./pages/EmailVerification.jsx";
+import Profile from "./pages/Profile.jsx";
+import AuthRequired from "./components/auth/AuthRequired.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
       <Route path="" element={<MainLayout />}>
         <Route index element={<Home />} />
+        <Route element={<AuthRequired />}>
+          <Route path="profile" element={<Profile />} />
+        </Route>
       </Route>
       <Route path="signin" element={<SignIn />} />,
       <Route path="signup" element={<SignUp />} />,
