@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import SignOutBtn from "./auth/SignOutBtn";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 const Navbar = () => {
-  const isUserLoggedIn = true;
+  const { isUserLoggedIn } = useContext(AuthContext);
 
   return (
     <div className="navbar bg-base-100">
@@ -52,7 +53,12 @@ const Navbar = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>link</li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/signin">signin</Link>
+          </li>
         </ul>
       </div>
       <div className="navbar-end gap-2">

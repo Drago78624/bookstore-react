@@ -14,6 +14,7 @@ import MainLayout from "./pages/MainLayout.jsx";
 import EmailVerification from "./pages/EmailVerification.jsx";
 import Profile from "./pages/Profile.jsx";
 import AuthRequired from "./components/auth/AuthRequired.jsx";
+import LoggedIn from "./components/auth/LoggedIn.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,9 +25,11 @@ const router = createBrowserRouter(
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
-      <Route path="signin" element={<SignIn />} />,
-      <Route path="signup" element={<SignUp />} />,
-      <Route path="email-verification" element={<EmailVerification />} />,
+      <Route element={<LoggedIn />}>
+        <Route path="signin" element={<SignIn />} />,
+        <Route path="signup" element={<SignUp />} />,
+        <Route path="email-verification" element={<EmailVerification />} />
+      </Route>
     </Route>
   )
 );

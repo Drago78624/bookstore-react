@@ -2,15 +2,14 @@ import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 
-const AuthRequired = () => {
+const LoggedIn = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
-  console.log("logged in")
 
-  if (!isUserLoggedIn) {
-    return <Navigate to="/signin" />;
+  if (isUserLoggedIn) {
+    return <Navigate to="/" />;
   }
 
   return <Outlet />;
 };
 
-export default AuthRequired;
+export default LoggedIn;

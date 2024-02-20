@@ -14,9 +14,8 @@ const formSchema = yup.object().shape({
     .min(8, "Password must be atleast 8 characters"),
 });
 
-console.log(auth.currentUser);
-
 const SignIn = () => {
+  console.log("signin");
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
