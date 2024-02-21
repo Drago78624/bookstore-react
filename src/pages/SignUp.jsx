@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,6 +10,9 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
+import { EmailVerificationContext } from "../contexts/EmailVerificationProvider";
+import ErrorMessage from "../components/ErrorMessage";
 
 const formSchema = yup.object().shape({
   fullName: yup.string().required("Please enter you full name"),
@@ -25,8 +28,12 @@ const formSchema = yup.object().shape({
 });
 
 const SignUp = () => {
+  // const { setEmailVerificationState } = useContext(EmailVerificationContext);
   const [loading, setLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [customError, setCustomError] = useState({
+    show: false,
+    message: "",
+  });
   const navigate = useNavigate();
   const {
     register,
@@ -44,12 +51,19 @@ const SignUp = () => {
         displayName: data.fullName,
       });
       await sendEmailVerification(auth.currentUser);
+      // setEmailVerificationState();
       await signOut(auth);
       setLoading(false);
       navigate("/email-verification");
     } catch (err) {
       setLoading(false);
-      setShowError(true);
+      setCustomError((prevErr) => {
+        return {
+          ...prevErr,
+          show: true,
+          message: "Email already in use, Try Logging in instead.",
+        };
+      });
     }
   };
 
@@ -65,17 +79,24 @@ const SignUp = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setShowError(false);
+      setCustomError((prevErr) => {
+        return {
+          ...prevErr,
+          show: false,
+          message: "",
+        };
+      });
     }, 4000);
 
     return () => clearTimeout(timeout);
-  }, [showError]);
+  }, [customError]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="card w-full max-w-md shadow-sm">
         <div className="card-body">
           <h2 className="text-3xl font-bold text-center mb-8">Sign Up</h2>
+          <BackButton />
           <form className="space-y-4" onSubmit={handleSubmit(signUpHandler)}>
             <div className="form-control">
               <input
@@ -133,24 +154,7 @@ const SignUp = () => {
           <p className="text-center mt-4 mb-10">
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
-          {showError && (
-            <div role="alert" className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>Error! Email already in use. Try logging in instead.</span>
-            </div>
-          )}
+          {customError.show && <ErrorMessage message={customError.message} />}
         </div>
       </div>
     </div>

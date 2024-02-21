@@ -15,8 +15,10 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsUserLoggedIn(true);
-        localStorage.setItem("isUserLoggedIn", JSON.stringify(true));
+        if (user.emailVerified) {
+          setIsUserLoggedIn(true);
+          localStorage.setItem("isUserLoggedIn", JSON.stringify(true));
+        }
       }
     });
 

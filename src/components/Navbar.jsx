@@ -49,15 +49,22 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">BookStore</a>
+        <Link to="/" className="btn btn-ghost text-xl hidden lg:inline-flex">BookStore</Link>
       </div>
+      <Link to="/" className="btn btn-ghost text-xl lg:hidden">BookStore</Link>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/profile">Profile</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/signin">signin</Link>
+            <Link to="/books">Books</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
           </li>
         </ul>
       </div>
@@ -105,14 +112,20 @@ const Navbar = () => {
           </div>
         )}
         {!isUserLoggedIn && (
-          <>
+          <ul className="hidden lg:flex gap-2">
+            <li>
+
             <Link to="/signup" className="btn">
               SIGN UP
             </Link>
+            </li>
+            <li>
+
             <Link to="/signin" className="btn btn-accent">
               SIGN IN
             </Link>
-          </>
+            </li>
+          </ul>
         )}
       </div>
     </div>
