@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import ErrorMessage from "../components/ErrorMessage";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required("Please enter an email"),
@@ -18,6 +19,7 @@ const formSchema = yup.object().shape({
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
+  const { setIsUserLoggedIn } = useContext(AuthContext);
   const [customError, setCustomError] = useState({
     show: false,
     message: "",
@@ -41,6 +43,8 @@ const SignIn = () => {
       );
       if (userCredential.user.emailVerified) {
         setLoading(false);
+        setIsUserLoggedIn(true);
+        localStorage.setItem("isUserLoggedIn", JSON.stringify(true));
         navigate("/");
       } else {
         setLoading(false);
