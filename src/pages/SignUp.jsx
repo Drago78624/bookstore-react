@@ -12,7 +12,7 @@ import { auth } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import { EmailVerificationContext } from "../contexts/EmailVerificationProvider";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../components/Message";
 
 const formSchema = yup.object().shape({
   fullName: yup.string().required("Please enter you full name"),

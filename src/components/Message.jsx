@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase-config";
 
-const ErrorMessage = ({ message }) => {
+const Message = ({ type, message }) => {
   const sendMail = async () => {
     await sendEmailVerification(auth.currentUser);
   };
@@ -12,12 +12,10 @@ const ErrorMessage = ({ message }) => {
       <Link to="/email-verification" className="btn" onClick={sendMail}>
         Send mail
       </Link>
-    ) : (
-      ""
-    );
+    ) : undefined;
 
   return (
-    <div role="alert" className="alert alert-error">
+    <div role="alert" className={`alert alert-${type}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="stroke-current shrink-0 h-6 w-6"
@@ -32,10 +30,10 @@ const ErrorMessage = ({ message }) => {
         />
       </svg>
       <span>
-        Error! {message} {button}
+        {type === "error" ? "Error" : "Success"}! {message} {button}
       </span>
     </div>
   );
 };
 
-export default ErrorMessage;
+export default Message;

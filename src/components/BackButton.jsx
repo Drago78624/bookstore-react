@@ -1,11 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BackButton = () => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
-    <Link to="/" className="btn fixed top-5 left-5 md:left-16 lg:left-28">
+    <button
+      className="btn fixed top-5 left-5 md:left-16 lg:left-28"
+      onClick={goBack}
+    >
       BACK
-    </Link>
+    </button>
   );
 };
 

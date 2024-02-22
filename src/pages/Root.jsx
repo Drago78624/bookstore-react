@@ -5,7 +5,7 @@ import AuthContextProvider from "../contexts/AuthContextProvider";
 const Root = () => {
   return (
     <AuthContextProvider>
-      <Outlet />;
+      <Outlet />
     </AuthContextProvider>
   );
 };
