@@ -21,9 +21,9 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const { setIsUserLoggedIn } = useContext(AuthContext);
   const [customMsg, setCustomMsg] = useState({
-    show: false,
-    type: "",
-    message: "",
+    show: null,
+    type: null,
+    message: null,
   });
   const navigate = useNavigate();
   const {
@@ -87,8 +87,8 @@ const SignIn = () => {
         return {
           ...prevMsg,
           show: false,
-          type: "",
-          message: "",
+          type: null,
+          message: null,
         };
       });
     }, 4000);

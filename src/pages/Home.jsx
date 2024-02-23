@@ -1,12 +1,16 @@
-import React from 'react'
+import React from "react";
+import Header from "../components/home/Header";
+import BooksSlider from "../components/home/BooksSlider";
 
 const Home = () => {
   return (
-    <div>
-        <h1>home</h1>
-        <a href="/signin">login</a>
-    </div>
-  )
-}
+    <main>
+      <Header />
+      <div className="container max-w-[992px] mx-auto p-4">
+        <BooksSlider />
+      </div>
+    </main>
+  );
+};
 
-export default Home
+export default Home;

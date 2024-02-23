@@ -30,8 +30,9 @@ const formSchema = yup.object().shape({
 const SignUp = () => {
   // const { setEmailVerificationState } = useContext(EmailVerificationContext);
   const [loading, setLoading] = useState(false);
-  const [customError, setCustomError] = useState({
+  const [customMsg, setCustomMsg] = useState({
     show: false,
+    type: "",
     message: "",
   });
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     resolver: yupResolver(formSchema),
   });
@@ -54,13 +56,22 @@ const SignUp = () => {
       // setEmailVerificationState();
       await signOut(auth);
       setLoading(false);
-      navigate("/email-verification");
+      setCustomMsg((prevMsg) => {
+        return {
+          ...prevMsg,
+          show: true,
+          type: "success",
+          message: `Email has been sent to ${data.email}, After verification, you can come back here to Sign In`,
+        };
+      });
+      reset()
     } catch (err) {
       setLoading(false);
-      setCustomError((prevErr) => {
+      setCustomMsg((prevMsg) => {
         return {
-          ...prevErr,
+          ...prevMsg,
           show: true,
+          type: "error",
           message: "Email already in use, Try Logging in instead.",
         };
       });
@@ -79,17 +90,18 @@ const SignUp = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setCustomError((prevErr) => {
+      setCustomMsg((prevMsg) => {
         return {
-          ...prevErr,
+          ...prevMsg,
           show: false,
+          type: "",
           message: "",
         };
       });
     }, 4000);
 
     return () => clearTimeout(timeout);
-  }, [customError]);
+  }, [customMsg]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -154,7 +166,9 @@ const SignUp = () => {
           <p className="text-center mt-4 mb-10">
             Already have an account? <Link to="/signin">Sign In</Link>
           </p>
-          {customError.show && <ErrorMessage message={customError.message} />}
+          {customMsg.show && (
+            <ErrorMessage message={customMsg.message} type={customMsg.type} />
+          )}
         </div>
       </div>
     </div>
