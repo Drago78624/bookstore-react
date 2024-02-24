@@ -1,21 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth, googleAuthProvider } from "../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import { EmailVerificationContext } from "../contexts/EmailVerificationProvider";
 import ErrorMessage from "../components/Message";
+import SignInWithGoogle from "../components/auth/SignInWithGoogle";
+import UserInput from "../components/UserInput";
+import { FaCheck, FaEnvelope, FaKey, FaUser } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({
-  fullName: yup.string().required("Please enter you full name"),
+  fullName: yup.string().required("Please enter your full name"),
   email: yup.string().email().required("Please enter an email"),
   password: yup
     .string()
@@ -28,7 +32,6 @@ const formSchema = yup.object().shape({
 });
 
 const SignUp = () => {
-  // const { setEmailVerificationState } = useContext(EmailVerificationContext);
   const [loading, setLoading] = useState(false);
   const [customMsg, setCustomMsg] = useState({
     show: false,
@@ -40,7 +43,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: yupResolver(formSchema),
   });
@@ -52,8 +55,8 @@ const SignUp = () => {
       await updateProfile(auth.currentUser, {
         displayName: data.fullName,
       });
+      console.log(auth.currentUser);
       await sendEmailVerification(auth.currentUser);
-      // setEmailVerificationState();
       await signOut(auth);
       setLoading(false);
       setCustomMsg((prevMsg) => {
@@ -64,7 +67,7 @@ const SignUp = () => {
           message: `Email has been sent to ${data.email}, After verification, you can come back here to Sign In`,
         };
       });
-      reset()
+      reset();
     } catch (err) {
       setLoading(false);
       setCustomMsg((prevMsg) => {
@@ -75,6 +78,17 @@ const SignUp = () => {
           message: "Email already in use, Try Logging in instead.",
         };
       });
+    }
+  };
+
+  const signInWithGoogleHandler = async () => {
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, googleAuthProvider);
+      setLoading(false);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -110,61 +124,53 @@ const SignUp = () => {
           <h2 className="text-3xl font-bold text-center mb-8">Sign Up</h2>
           <BackButton />
           <form className="space-y-4" onSubmit={handleSubmit(signUpHandler)}>
-            <div className="form-control">
-              <input
-                placeholder="Full Name"
-                type="text"
-                className="input input-bordered"
-                {...register("fullName")}
-              />
-              <p className="text-error mt-1">
-                {errors.fullName && errors.fullName?.message}
-              </p>
-            </div>
-            <div className="form-control">
-              <input
-                placeholder="Email"
-                type="email"
-                className="input input-bordered"
-                {...register("email")}
-              />
-              <p className="text-error mt-1">
-                {errors.email && errors.email?.message}
-              </p>
-            </div>
-            <div className="form-control">
-              <input
-                placeholder="Password"
-                type="password"
-                className="input input-bordered"
-                {...register("password")}
-              />
-              <p className="text-error mt-1">
-                {errors.password && errors.password?.message}
-              </p>
-            </div>
-            <div className="form-control">
-              <input
-                placeholder="Confirm Password"
-                type="password"
-                className="input input-bordered"
-                {...register("confirmPassword")}
-              />
-              <p className="text-error mt-1">
-                {errors.confirmPassword && errors.confirmPassword?.message}
-              </p>
-            </div>
-
+            <UserInput
+              placeholder="Full Name"
+              type="text"
+              register={register}
+              registerWith="fullName"
+              error={errors.fullName}
+              icon={<FaUser />}
+            />
+            <UserInput
+              placeholder="Email"
+              type="email"
+              register={register}
+              registerWith="email"
+              error={errors.email}
+              icon={<FaEnvelope />}
+            />
+            <UserInput
+              placeholder="Password"
+              type="password"
+              register={register}
+              registerWith="password"
+              error={errors.password}
+              icon={<FaKey />}
+            />
+            <UserInput
+              placeholder="Confirm Password"
+              type="password"
+              register={register}
+              registerWith="confirmPassword"
+              error={errors.confirmPassword}
+              icon={<FaKey />}
+            />
             <button
-              className="btn btn-accent w-full"
+              className="btn btn-accent w-full shadow-lg"
               type="submit"
               disabled={loading}
             >
+              <FaCheck />
               {buttonContent}
             </button>
           </form>
-          <p className="text-center mt-4 mb-10">
-            Already have an account? <Link to="/signin">Sign In</Link>
+          <SignInWithGoogle />
+          <p className="text-center mt-4 mb-2">
+            Already have an account?{" "}
+            <Link to="/signin" className="underline underline-offset-2">
+              Sign In
+            </Link>
           </p>
           {customMsg.show && (
             <ErrorMessage message={customMsg.message} type={customMsg.type} />

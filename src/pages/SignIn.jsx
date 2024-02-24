@@ -8,6 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Message from "../components/Message";
 import { AuthContext } from "../contexts/AuthContextProvider";
+import SignInWithGoogle from "../components/auth/SignInWithGoogle";
+import UserInput from "../components/UserInput";
+import { FaArrowRightToBracket, FaEnvelope, FaKey } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required("Please enter an email"),
@@ -103,41 +106,37 @@ const SignIn = () => {
           <h2 className="text-3xl font-bold text-center mb-8">Sign In</h2>
           <BackButton />
           <form className="space-y-4" onSubmit={handleSubmit(signInHandler)}>
-            <div className="form-control">
-              <input
-                placeholder="Email"
-                type="email"
-                className="input input-bordered"
-                {...register("email")}
-              />
-              <p className="text-error mt-1">
-                {errors.email && errors.email?.message}
-              </p>
-            </div>
-            <div className="form-control">
-              <input
-                placeholder="Password"
-                type="password"
-                className="input input-bordered"
-                {...register("password")}
-              />
-              <p className="text-error mt-1">
-                {errors.password && errors.password?.message}
-              </p>
-            </div>
+            <UserInput
+              placeholder="Email"
+              type="email"
+              register={register}
+              registerWith="email"
+              error={errors.email}
+              icon={<FaEnvelope />}
+            />
+            <UserInput
+              placeholder="Password"
+              type="password"
+              register={register}
+              registerWith="password"
+              error={errors.password}
+              icon={<FaKey />}
+            />
             <button
-              className="btn btn-accent w-full"
+              className="btn btn-accent w-full shadow-lg"
               type="submit"
               disabled={loading}
             >
+              <FaArrowRightToBracket />
               {buttonContent}
             </button>
           </form>
+          <SignInWithGoogle />
           <p className="text-center mt-4">
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            Don't have an account? <Link to="/signup" className="underline underline-offset-2">Sign Up</Link>
           </p>
           <p className="text-center mt-2 mb-2">
-            <Link to="/forgot-password">Forgot Password ?</Link>
+            <Link to="/forgot-password" className="underline underline-offset-2">Forgot Password ?</Link>
           </p>
           {customMsg.show && (
             <Message message={customMsg.message} type={customMsg.type} />

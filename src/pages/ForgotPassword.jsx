@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Message from "../components/Message";
 import { AuthContext } from "../contexts/AuthContextProvider";
+import UserInput from "../components/UserInput";
+import { FaEnvelope, FaPaperPlane } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({
   email: yup.string().email().required("Please enter an email"),
@@ -97,22 +99,20 @@ const ForgotPassword = () => {
             className="space-y-4"
             onSubmit={handleSubmit(forgotPasswordHandler)}
           >
-            <div className="form-control">
-              <input
-                placeholder="Email"
-                type="email"
-                className="input input-bordered"
-                {...register("email")}
-              />
-              <p className="text-error mt-1">
-                {errors.email && errors.email?.message}
-              </p>
-            </div>
+            <UserInput
+              placeholder="Email"
+              type="email"
+              register={register}
+              registerWith="email"
+              error={errors.email}
+              icon={<FaEnvelope />}
+            />
             <button
               className="btn btn-accent w-full"
               type="submit"
               disabled={loading}
             >
+              <FaPaperPlane />
               {buttonContent}
             </button>
           </form>
