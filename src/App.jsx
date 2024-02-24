@@ -16,12 +16,14 @@ import Profile from "./pages/Profile.jsx";
 import AuthRequired from "./components/auth/AuthRequired.jsx";
 import LoggedIn from "./components/auth/LoggedIn.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import Books from "./pages/Books.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
       <Route path="" element={<MainLayout />}>
         <Route index element={<Home />} />
+        <Route path="books" element={<Books />} />
         <Route element={<AuthRequired />}>
           <Route path="profile" element={<Profile />} />
         </Route>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import SignOutBtn from "./auth/SignOutBtn";
 import { AuthContext } from "../contexts/AuthContextProvider";
 import DarkModeBtn from "./DarkModeBtn";
@@ -50,16 +50,27 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl hidden lg:inline-flex">BookStore</Link>
+        <Link to="/" className="btn btn-ghost text-xl hidden lg:inline-flex">
+          BookStore
+        </Link>
       </div>
-      <Link to="/" className="btn btn-ghost text-xl lg:hidden">BookStore</Link>
+      <Link to="/" className="btn btn-ghost text-xl lg:hidden">
+        BookStore
+      </Link>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link to="/">Home</Link>
+            <NavLink className={({isActive}) => (isActive ? "btn-active" : null)} to="/">
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link to="/books">Books</Link>
+            <NavLink
+              className={({isActive}) => (isActive ? "btn-active" : null)}
+              to="/books"
+            >
+              Books
+            </NavLink>
           </li>
           <li>
             <Link to="/contact">Contact</Link>
@@ -111,16 +122,14 @@ const Navbar = () => {
         {!isUserLoggedIn && (
           <ul className="hidden lg:flex gap-2">
             <li>
-
-            <Link to="/signup" className="btn">
-              SIGN UP
-            </Link>
+              <Link to="/signup" className="btn">
+                SIGN UP
+              </Link>
             </li>
             <li>
-
-            <Link to="/signin" className="btn btn-accent">
-              SIGN IN
-            </Link>
+              <Link to="/signin" className="btn btn-accent">
+                SIGN IN
+              </Link>
             </li>
           </ul>
         )}

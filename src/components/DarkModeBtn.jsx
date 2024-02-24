@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 const DarkModeBtn = () => {
-  const [isLight, setIsLight] = useState(
-    JSON.parse(localStorage.getItem("isLight"))
-  );
+  const [mode, setMode] = useState("dark");
 
-  useEffect(() => {
-    localStorage.setItem("isLight", JSON.stringify(isLight));
-    document.documentElement.setAttribute(
-      "data-theme",
-      JSON.parse(localStorage.getItem("isLight")) ? "light" : "dark"
-    );
-  }, [isLight]);
+  const changeColorMode = () => {
+    setMode((prevMode) => (prevMode == "dark" ? "light" : "dark"));
+  };
 
   return (
     <label className="swap swap-rotate">
@@ -19,9 +13,8 @@ const DarkModeBtn = () => {
       <input
         type="checkbox"
         className="theme-controller"
-        value="light"
-        checked={isLight}
-        onChange={() => setIsLight(!isLight)}
+        value={mode}
+        onChange={changeColorMode}
       />
 
       {/* sun icon */}
