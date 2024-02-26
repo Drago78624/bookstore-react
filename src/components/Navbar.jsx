@@ -8,7 +8,7 @@ const Navbar = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 container mx-auto max-w-[1280px]">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -29,25 +29,51 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content gap-2 mt-3 z-[50] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Item 1</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
+              <Link to="/books">Books</Link>
             </li>
             <li>
-              <a>Item 3</a>
+              <Link to="/about">About</Link>
             </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+            {isUserLoggedIn && (
+              <li className="sm:hidden">
+                <div className="flex gap-2">
+                  <div className="avatar">
+                    <div className="w-10 rounded-full">
+                      <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                    </div>
+                  </div>
+                  <p>Muhammad Maaz Ahmed</p>
+                </div>
+              </li>
+            )}
+            {isUserLoggedIn && (
+              <li className="sm:hidden">
+                <SignOutBtn />
+              </li>
+            )}
+            {!isUserLoggedIn && (
+              <>
+                <li>
+                  <Link to="/signup" className="btn">
+                    SIGN UP
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/signin" className="btn btn-accent">
+                    SIGN IN
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl hidden lg:inline-flex">
@@ -60,13 +86,16 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <NavLink className={({isActive}) => (isActive ? "btn-active" : null)} to="/">
+            <NavLink
+              className={({ isActive }) => (isActive ? "btn-active" : null)}
+              to="/"
+            >
               Home
             </NavLink>
           </li>
           <li>
             <NavLink
-              className={({isActive}) => (isActive ? "btn-active" : null)}
+              className={({ isActive }) => (isActive ? "btn-active" : null)}
               to="/books"
             >
               Books
@@ -100,7 +129,7 @@ const Navbar = () => {
         </label> */}
         <DarkModeBtn />
         {isUserLoggedIn && (
-          <div className="dropdown dropdown-end z-50">
+          <div className="dropdown dropdown-end z-50 hidden sm:inline-block">
             <div className="avatar m-1" tabIndex={0} role="button">
               <div className="w-12 rounded-full">
                 <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />

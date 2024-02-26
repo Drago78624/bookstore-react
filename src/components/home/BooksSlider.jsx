@@ -5,7 +5,7 @@ import "@splidejs/react-splide/css/core";
 
 const BooksSlider = ({ heading }) => {
   return (
-    <section className="p-2">
+    <section className="p-2 container mx-auto">
       <h2 className="font-semibold text-3xl my-4">POPULAR BOOKS</h2>
       <Splide
         options={{
