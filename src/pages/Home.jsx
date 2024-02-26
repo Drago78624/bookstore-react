@@ -6,9 +6,8 @@ const Home = () => {
   return (
     <main>
       <Header />
-      <div className="container max-w-[992px] mx-auto p-4">
-        <BooksSlider />
-      </div>
+      <BooksSlider />
+      <BooksSlider />
     </main>
   );
 };
