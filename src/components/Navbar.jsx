@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import SignOutBtn from "./auth/SignOutBtn";
 import { AuthContext } from "../contexts/AuthContextProvider";
 import DarkModeBtn from "./DarkModeBtn";
+import { FaRegUser } from "react-icons/fa6";
 
 const Navbar = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
@@ -109,7 +110,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end gap-2">
+      <div className="navbar-end gap-3">
         {/* <label className="swap swap-rotate">
           <input type="checkbox" className="theme-controller" value="light" />
           <svg
@@ -130,17 +131,15 @@ const Navbar = () => {
         <DarkModeBtn />
         {isUserLoggedIn && (
           <div className="dropdown dropdown-end z-50 hidden sm:inline-block">
-            <div className="avatar m-1" tabIndex={0} role="button">
-              <div className="w-12 rounded-full">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-              </div>
+            <div className="text-2xl m-1" tabIndex={0} role="button">
+              <FaRegUser />
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content gap-2 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Profile</a>
+                <Link to="/profile">Profile</Link>
               </li>
               <li>
                 <SignOutBtn />

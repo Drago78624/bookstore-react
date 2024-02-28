@@ -2,7 +2,7 @@ import { signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { auth, googleAuthProvider } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
-import GoogleIcon from "../../assets/icons/google-icon.svg"
+import GoogleIcon from "../../assets/icons/google-icon.svg";
 
 const SignInWithGoogle = () => {
   const [loading, setLoading] = useState(false);
@@ -19,11 +19,17 @@ const SignInWithGoogle = () => {
     }
   };
 
-  let buttonContent = "SIGN IN WITH GOOGLE";
+  let buttonContent = (
+    <>
+      <img src={GoogleIcon} width={16} alt="google icon" />
+      SIGN IN WITH GOOGLE
+    </>
+  );
   if (loading) {
     buttonContent = (
       <>
         <span className="loading loading-dots loading-lg"></span>
+        <img src={GoogleIcon} width={16} alt="google icon" />
         SIGNING IN WITH GOOGLE
       </>
     );
@@ -34,7 +40,6 @@ const SignInWithGoogle = () => {
       onClick={signInWithGoogleHandler}
       disabled={loading}
     >
-      <img src={GoogleIcon} width={16} alt="google icon" />
       {buttonContent}
     </button>
   );

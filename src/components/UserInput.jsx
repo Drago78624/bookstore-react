@@ -7,7 +7,6 @@ const UserInput = ({ register, registerWith, error, icon, ...defaults }) => {
         {icon}
         <input {...defaults} className="grow" {...register(registerWith)} />
       </label>
-
       <p className="text-error mt-1">{error && error?.message}</p>
     </div>
   );
