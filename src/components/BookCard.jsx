@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa6";
 
-const BookCard = ({ title, imgUrl, description }) => {
+const BookCard = ({ title, price, imgUrl, description }) => {
   return (
     <div className="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
       <img
@@ -15,7 +15,7 @@ const BookCard = ({ title, imgUrl, description }) => {
             {title.substr(0, 26)}
             {title.length > 26 && "..."}
           </h5>
-          {/* <p className=" mb-2">Author Name</p> */}
+          <p className=" mb-2">${price.substr(2)}</p>
           <p className="mb-2">{description.substr(0, 52) + "..."}</p>
           {/* <div className="rating">
             <input

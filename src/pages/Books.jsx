@@ -10,12 +10,11 @@ import { db } from "../firebase-config";
 import BookCardSkeleton from "../components/BookCardSkeleton";
 
 const formSchema = yup.object().shape({
-  userSearch: yup.string().required("Please enter a title, author or genre"),
+  searchTerm: yup.string().required("Please enter a title, author or genre"),
 });
 
 const Books = () => {
   const [allBooks, setAllBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
   const {
     register,
@@ -26,15 +25,19 @@ const Books = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const searchHandler = (e) => {
-    setSearchTerm(e.target.value);
+  const searchHandler = (data) => {
+    console.log(data.searchTerm)
+  };
 
-    // Filter the books based on the search term
+  useEffect(() => {
+    const searchTerm = watch("searchTerm"); // Get the search term from the form
+  
+    // Update filteredBooks based on the search term
     const filtered = allBooks.filter((book) =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredBooks(filtered);
-  };
+  }, [watch("searchTerm"), allBooks]);
 
   const getAllBooks = async () => {
     const querySnapshot = await getDocs(collection(db, "books"));
@@ -50,21 +53,21 @@ const Books = () => {
     <section className="p-2 container mx-auto">
       <h2 className="font-semibold text-3xl my-4">EXPLORE BOOKS</h2>
       <form onSubmit={handleSubmit(searchHandler)}>
-        <input type="text" value={searchTerm} onChange={searchHandler} />
-        {/* <UserInput
+        {/* <input type="text" value={searchTerm} onChange={searchHandler} /> */}
+        <UserInput
           placeholder="Search title, author or genre"
           type="text"
           register={register}
-          registerWith="userSearch"
-          error={errors.userSearch}
+          registerWith="searchTerm"
+          error={errors.searchTerm}
           icon={<FaMagnifyingGlass />}
-        /> */}
+        />
         <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Filter</span>
           </div>
           <select className="select select-bordered">
-            <option selected>Popularity</option>
+            <option defaultValue>Popularity</option>
             <option>Price</option>
             <option>Release Date</option>
           </select>
@@ -72,13 +75,14 @@ const Books = () => {
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
         {!allBooks.length &&
-          [...Array(12).keys()].map((i) => <BookCardSkeleton />)}
-        {allBooks.length && searchTerm.length === 0
+          [...Array(12).keys()].map((i) => <BookCardSkeleton key={i} />)}
+        {filteredBooks.length === 0
           ? allBooks.map((book) => {
               return (
                 <BookCard
                   key={book.bookId}
                   title={book.title}
+                  price={book.price}
                   imgUrl={book.imgUrl}
                   description={book.description}
                 />
@@ -88,6 +92,7 @@ const Books = () => {
               <BookCard
                 key={book.bookId}
                 title={book.title}
+                price={book.price}
                 imgUrl={book.imgUrl}
                 description={book.description}
               />
