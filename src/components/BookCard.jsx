@@ -12,7 +12,8 @@ const BookCard = ({ title, imgUrl, description }) => {
       <div className="card-body p-4 flex flex-col justify-between">
         <div className="text-center">
           <h5 className="block card-title font-bold text-lg">
-            {title.substr(0, 52)}{title.length > 52 && "..."}
+            {title.substr(0, 26)}
+            {title.length > 26 && "..."}
           </h5>
           {/* <p className=" mb-2">Author Name</p> */}
           <p className="mb-2">{description.substr(0, 52) + "..."}</p>

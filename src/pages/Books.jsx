@@ -15,16 +15,25 @@ const formSchema = yup.object().shape({
 
 const Books = () => {
   const [allBooks, setAllBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(formSchema),
   });
 
-  const searchHandler = (data) => {
-    console.log(data);
+  const searchHandler = (e) => {
+    setSearchTerm(e.target.value);
+
+    // Filter the books based on the search term
+    const filtered = allBooks.filter((book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredBooks(filtered);
   };
 
   const getAllBooks = async () => {
@@ -41,14 +50,15 @@ const Books = () => {
     <section className="p-2 container mx-auto">
       <h2 className="font-semibold text-3xl my-4">EXPLORE BOOKS</h2>
       <form onSubmit={handleSubmit(searchHandler)}>
-        <UserInput
+        <input type="text" value={searchTerm} onChange={searchHandler} />
+        {/* <UserInput
           placeholder="Search title, author or genre"
           type="text"
           register={register}
           registerWith="userSearch"
           error={errors.userSearch}
           icon={<FaMagnifyingGlass />}
-        />
+        /> */}
         <label className="form-control w-full max-w-xs">
           <div className="label">
             <span className="label-text">Filter</span>
@@ -60,25 +70,28 @@ const Books = () => {
           </select>
         </label>
       </form>
-      {/* {!allBooks.length && <div className="w-full min-h-96 flex justify-center items-center">
-        <span className="loading loading-dots loading-lg"></span>
-        </div>} */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-4">
         {!allBooks.length &&
-          [...Array(10).keys()].map((i) => (
-            <BookCardSkeleton />
-          ))}
-        {allBooks.length &&
-          allBooks.map((book) => {
-            return (
+          [...Array(12).keys()].map((i) => <BookCardSkeleton />)}
+        {allBooks.length && searchTerm.length === 0
+          ? allBooks.map((book) => {
+              return (
+                <BookCard
+                  key={book.bookId}
+                  title={book.title}
+                  imgUrl={book.imgUrl}
+                  description={book.description}
+                />
+              );
+            })
+          : filteredBooks.map((book) => (
               <BookCard
                 key={book.bookId}
                 title={book.title}
                 imgUrl={book.imgUrl}
                 description={book.description}
               />
-            );
-          })}
+            ))}
       </div>
     </section>
   );
