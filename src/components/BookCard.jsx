@@ -1,17 +1,22 @@
 import React from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa6";
 
-const BookCard = () => {
+const BookCard = ({ title, imgUrl, description }) => {
   return (
-    <div class="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
+    <div className="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
       <img
-        src="https://www.wavy.com/wp-content/uploads/sites/3/2019/10/AP19277543454386.jpg?w=1280"
-        alt="Book cover" class="w-full h-auto object-contain rounded-t-lg" />
-      <div class="card-body p-4 flex flex-col justify-between">
-        <div>
-          <h5 class="card-title font-bold text-lg">Book Title</h5>
-          <p class=" mb-2">Author Name</p>
-          <div className="rating">
+        src={imgUrl}
+        alt="Book cover"
+        className="w-full h-48 object-contain rounded-t-lg"
+      />
+      <div className="card-body p-4 flex flex-col justify-between">
+        <div className="text-center">
+          <h5 className="block card-title font-bold text-lg">
+            {title.substr(0, 52)}{title.length > 52 && "..."}
+          </h5>
+          {/* <p className=" mb-2">Author Name</p> */}
+          <p className="mb-2">{description.substr(0, 52) + "..."}</p>
+          {/* <div className="rating">
             <input
               type="radio"
               name="rating-2"
@@ -38,14 +43,14 @@ const BookCard = () => {
               name="rating-2"
               className="mask mask-star-2 bg-orange-400"
             />
-          </div>
+          </div> */}
         </div>
-        <div class="flex justify-between items-center">
-          <button class="btn btn-accent btn-sm">
+        <div className="flex justify-between items-center">
+          <button className="btn btn-accent btn-sm">
             <FaCartPlus />
             Add to cart
           </button>
-          <button class="btn btn-outline btn-error btn-sm">
+          <button className="btn btn-outline btn-error btn-sm">
             <FaHeart />
           </button>
         </div>
