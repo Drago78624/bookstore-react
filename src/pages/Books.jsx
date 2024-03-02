@@ -16,6 +16,7 @@ const formSchema = yup.object().shape({
 const Books = () => {
   const [allBooks, setAllBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const [selectedPriceFilter, setSelectedPriceFilter] = useState("all");
   const {
     register,
     handleSubmit,
@@ -26,18 +27,8 @@ const Books = () => {
   });
 
   const searchHandler = (data) => {
-    console.log(data.searchTerm)
+    console.log(data);
   };
-
-  useEffect(() => {
-    const searchTerm = watch("searchTerm"); // Get the search term from the form
-  
-    // Update filteredBooks based on the search term
-    const filtered = allBooks.filter((book) =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredBooks(filtered);
-  }, [watch("searchTerm"), allBooks]);
 
   const getAllBooks = async () => {
     const querySnapshot = await getDocs(collection(db, "books"));
@@ -45,9 +36,45 @@ const Books = () => {
     setAllBooks(fetchedBooks);
   };
 
+  // useEffect(() => {
+  //   const searchTerm = watch("searchTerm");
+
+  //   const filtered = allBooks.filter((book) =>
+  //     book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredBooks(filtered);
+  // }, [watch("searchTerm"), allBooks]);
+
+  useEffect(() => {
+    const searchTerm = watch("searchTerm");
+    console.log(searchTerm);
+    const filtered = allBooks.filter((book) => {
+      const titleMatch = book.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      let priceMatch = true;
+      if (selectedPriceFilter !== "all") {
+        const priceRange = selectedPriceFilter.split("-");
+        const minPrice = parseFloat(priceRange[0]);
+        const maxPrice = parseFloat(priceRange[1]);
+        const bookPrice = Number(book.price.substr(2));
+        priceMatch = bookPrice >= minPrice && bookPrice <= maxPrice;
+      }
+
+      return titleMatch && priceMatch;
+    });
+    // console.log(filtered)
+    setFilteredBooks(filtered);
+  }, [watch("searchTerm"), allBooks, selectedPriceFilter]);
+
   useEffect(() => {
     getAllBooks();
   }, []);
+
+  const handlePriceFilterChange = (event) => {
+    setSelectedPriceFilter(event.target.value);
+  };
 
   return (
     <section className="p-2 container mx-auto">
@@ -64,12 +91,19 @@ const Books = () => {
         />
         <label className="form-control w-full max-w-xs">
           <div className="label">
-            <span className="label-text">Filter</span>
+            <span className="label-text">Price</span>
           </div>
-          <select className="select select-bordered">
-            <option defaultValue>Popularity</option>
-            <option>Price</option>
-            <option>Release Date</option>
+          <select
+            value={selectedPriceFilter}
+            onChange={handlePriceFilterChange}
+            className="select select-bordered"
+          >
+            <option value="all">All Prices</option>
+            <option value="0-25">$0 - $25</option>
+            <option value="25-50">$25 - $50</option>
+            <option value="50-100">$50 - $100</option>
+            {/* <option>Ascending</option>
+            <option>Descending</option> */}
           </select>
         </label>
       </form>
