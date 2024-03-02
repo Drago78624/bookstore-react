@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "@splidejs/react-splide/css/core";
+import { collection, getDocs, limit, query } from "firebase/firestore";
+import { db } from "../../firebase-config";
+import BookCard from "../BookCard";
 
 const BooksSlider = ({ heading }) => {
+  const [bookCards, setBookCards] = useState()
+
+  const fetchBooks = async () => {
+    const books = [];
+    try {
+      const collectionRef = collection(db, 'books');
+      const q = query(collectionRef, limit(10)); // Limit to 7 documents
+      const snapshot = await getDocs(q);
+      snapshot.forEach((doc) => {
+        books.push(doc.data());
+      });
+    } catch (error) {
+      console.error('Error fetching documents:', error);
+    }
+    return books;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const books = await fetchBooks();
+      setBookCards(books);
+    };
+    fetchData();
+  }, [])
   return (
     <section className="p-2 container mx-auto">
       <h2 className="font-semibold text-3xl my-4">POPULAR BOOKS</h2>
@@ -31,23 +58,18 @@ const BooksSlider = ({ heading }) => {
         }}
         aria-label="Popular Books"
       >
-        <SplideSlide>
-          <div className="card card-compact w-52 md:w-64 lg:w-72 bg-base-100 shadow-xl">
-            <figure>
-              <img
-                src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                alt="Shoes"
+        {bookCards && bookCards.map((bookCard) => {
+          return <SplideSlide>
+            <BookCard
+                key={bookCard.bookId}
+                title={bookCard.title}
+                price={bookCard.price}
+                imgUrl={bookCard.imgUrl}
+                description={bookCard.description}
+                bookId={bookCard.bookId}
               />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">Shoes!</h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div className="card-actions justify-end">
-                <button className="btn btn-primary">Buy Now</button>
-              </div>
-            </div>
-          </div>
-        </SplideSlide>
+          </SplideSlide>
+        })}
       </Splide>
     </section>
   );
