@@ -85,6 +85,7 @@ const Books = () => {
                   price={book.price}
                   imgUrl={book.imgUrl}
                   description={book.description}
+                  bookId={book.bookId}
                 />
               );
             })
@@ -95,6 +96,7 @@ const Books = () => {
                 price={book.price}
                 imgUrl={book.imgUrl}
                 description={book.description}
+                bookId={book.bookId}
               />
             ))}
       </div>

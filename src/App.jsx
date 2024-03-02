@@ -17,6 +17,7 @@ import AuthRequired from "./components/auth/AuthRequired.jsx";
 import LoggedIn from "./components/auth/LoggedIn.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import Books from "./pages/Books.jsx";
+import BookDetail from "./pages/BookDetail.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="books" element={<Books />} />
+        <Route path="book-detail/:bookId" element={<BookDetail />} />
         <Route element={<AuthRequired />}>
           <Route path="profile" element={<Profile />} />
         </Route>

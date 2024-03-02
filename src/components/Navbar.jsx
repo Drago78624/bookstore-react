@@ -150,7 +150,7 @@ const Navbar = () => {
         {!isUserLoggedIn && (
           <ul className="hidden lg:flex gap-2">
             <li>
-              <Link to="/signup" className="btn">
+              <Link to="/signup" className="btn btn-outline">
                 SIGN UP
               </Link>
             </li>

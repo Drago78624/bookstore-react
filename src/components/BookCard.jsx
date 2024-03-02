@@ -1,7 +1,8 @@
 import React from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-const BookCard = ({ title, price, imgUrl, description }) => {
+const BookCard = ({ title, price, imgUrl, description, bookId }) => {
   return (
     <div className="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
       <img
@@ -11,10 +12,10 @@ const BookCard = ({ title, price, imgUrl, description }) => {
       />
       <div className="card-body p-4 flex flex-col justify-between">
         <div className="text-center">
-          <h5 className="block card-title font-bold text-lg">
+          <Link to={`/book-detail/${bookId}`} className="block card-title font-bold text-lg">
             {title.substr(0, 26)}
             {title.length > 26 && "..."}
-          </h5>
+          </Link>
           <p className=" mb-2">${price.substr(2)}</p>
           <p className="mb-2">{description.substr(0, 52) + "..."}</p>
           {/* <div className="rating">
