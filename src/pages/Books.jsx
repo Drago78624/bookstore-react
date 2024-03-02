@@ -64,7 +64,7 @@ const Books = () => {
 
       return titleMatch && priceMatch;
     });
-    // console.log(filtered)
+
     setFilteredBooks(filtered);
   }, [watch("searchTerm"), allBooks, selectedPriceFilter]);
 
@@ -100,8 +100,8 @@ const Books = () => {
           >
             <option value="all">All Prices</option>
             <option value="0-25">$0 - $25</option>
-            <option value="25-50">$25 - $50</option>
-            <option value="50-100">$50 - $100</option>
+            <option value="25-40">$25 - $40</option>
+            <option value="50-60">$50+</option>
             {/* <option>Ascending</option>
             <option>Descending</option> */}
           </select>

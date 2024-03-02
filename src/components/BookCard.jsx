@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContextProvider";
+
 
 const BookCard = ({ title, price, imgUrl, description, bookId }) => {
+  const { isUserLoggedIn } = useContext(AuthContext);
+
   return (
     <div className="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
       <img
@@ -47,7 +51,7 @@ const BookCard = ({ title, price, imgUrl, description, bookId }) => {
             />
           </div> */}
         </div>
-        <div className="flex justify-between items-center">
+        {isUserLoggedIn && <div className="flex justify-between items-center">
           <button className="btn btn-accent btn-sm">
             <FaCartPlus />
             Add to cart
@@ -55,7 +59,7 @@ const BookCard = ({ title, price, imgUrl, description, bookId }) => {
           <button className="btn btn-outline btn-error btn-sm">
             <FaHeart />
           </button>
-        </div>
+        </div>}
       </div>
     </div>
   );
