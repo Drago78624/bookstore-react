@@ -4,7 +4,6 @@ import { AuthContext } from "../../contexts/AuthContextProvider";
 
 const AuthRequired = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
-  console.log("logged in")
 
   if (!isUserLoggedIn) {
     return <Navigate to="/signin" />;

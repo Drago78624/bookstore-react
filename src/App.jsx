@@ -18,6 +18,7 @@ import LoggedIn from "./components/auth/LoggedIn.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import Books from "./pages/Books.jsx";
 import BookDetail from "./pages/BookDetail.jsx";
+import Wishlist from "./pages/Wishlist.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         <Route path="book-detail/:bookId" element={<BookDetail />} />
         <Route element={<AuthRequired />}>
           <Route path="profile" element={<Profile />} />
+          <Route path="wishlist" element={<Wishlist />} />
         </Route>
       </Route>
       <Route element={<LoggedIn />}>

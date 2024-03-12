@@ -139,6 +139,9 @@ const Navbar = () => {
               className="dropdown-content gap-2 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
+                <Link to="/wishlist">Wishlist</Link>
+              </li>
+              <li>
                 <Link to="/profile">Profile</Link>
               </li>
               <li>

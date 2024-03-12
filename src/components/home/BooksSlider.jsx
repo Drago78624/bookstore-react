@@ -5,32 +5,36 @@ import "@splidejs/react-splide/css/core";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import BookCard from "../BookCard";
+import BookCardSkeleton from "../BookCardSkeleton";
 
 const BooksSlider = ({ heading }) => {
-  const [bookCards, setBookCards] = useState()
+  const [bookCards, setBookCards] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchBooks = async () => {
     const books = [];
     try {
-      const collectionRef = collection(db, 'books');
+      const collectionRef = collection(db, "books");
       const q = query(collectionRef, limit(10)); // Limit to 7 documents
       const snapshot = await getDocs(q);
       snapshot.forEach((doc) => {
         books.push(doc.data());
       });
     } catch (error) {
-      console.error('Error fetching documents:', error);
+      console.error("Error fetching documents:", error);
     }
     return books;
   };
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const books = await fetchBooks();
       setBookCards(books);
+      setLoading(false);
     };
     fetchData();
-  }, [])
+  }, []);
   return (
     <section className="p-2 container mx-auto">
       <h2 className="font-semibold text-3xl my-4">POPULAR BOOKS</h2>
@@ -58,18 +62,27 @@ const BooksSlider = ({ heading }) => {
         }}
         aria-label="Popular Books"
       >
-        {bookCards && bookCards.map((bookCard) => {
-          return <SplideSlide>
-            <BookCard
-                key={bookCard.bookId}
-                title={bookCard.title}
-                price={bookCard.price}
-                imgUrl={bookCard.imgUrl}
-                description={bookCard.description}
-                bookId={bookCard.bookId}
-              />
-          </SplideSlide>
-        })}
+        {!bookCards.length &&
+          [...Array(10).keys()].map((i) => (
+            <SplideSlide>
+              <BookCardSkeleton key={i} />
+            </SplideSlide>
+          ))}
+        {bookCards.length &&
+          bookCards.map((bookCard) => {
+            return (
+              <SplideSlide>
+                <BookCard
+                  key={bookCard.bookId}
+                  title={bookCard.title}
+                  price={bookCard.price}
+                  imgUrl={bookCard.imgUrl}
+                  description={bookCard.description}
+                  bookId={bookCard.bookId}
+                />
+              </SplideSlide>
+            );
+          })}
       </Splide>
     </section>
   );
