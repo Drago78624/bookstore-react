@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaCartPlus, FaHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContextProvider";
+import { AuthContext } from "../../contexts/AuthContextProvider";
 import {
   collection,
   addDoc,
@@ -10,19 +10,20 @@ import {
   getDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 
 const BookCard = ({ title, price, imgUrl, description, bookId }) => {
   const { isUserLoggedIn, userUid } = useContext(AuthContext);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const docRef = doc(db, "wishlist", bookId);
 
   const addToWishlist = async () => {
-    console.log(alreadyAdded);
+    setLoading(true);
     if (alreadyAdded) {
       await deleteDoc(docRef);
-      setAlreadyAdded(false)
+      setAlreadyAdded(false);
     } else {
       await setDoc(doc(db, "wishlist", bookId), {
         bookId,
@@ -31,8 +32,9 @@ const BookCard = ({ title, price, imgUrl, description, bookId }) => {
         coverImgUrl: imgUrl,
         uid: userUid,
       });
-      setAlreadyAdded(true)
+      setAlreadyAdded(true);
     }
+    setLoading(false);
   };
 
   const checkingWishlistStatus = async () => {
@@ -108,7 +110,11 @@ const BookCard = ({ title, price, imgUrl, description, bookId }) => {
               } btn-error btn-sm`}
               onClick={addToWishlist}
             >
-              <FaHeart />
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                <FaHeart />
+              )}
             </button>
           </div>
         )}

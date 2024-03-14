@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import UserInput from "../components/UserInput";
+import UserInput from "../../components/UserInput";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import BookCard from "../components/BookCard";
+import BookCard from "../../components/books/BookCard";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase-config";
-import BookCardSkeleton from "../components/BookCardSkeleton";
+import { db } from "../../firebase-config";
+import BookCardSkeleton from "../../components/books/BookCardSkeleton";
 
 const formSchema = yup.object().shape({
   searchTerm: yup.string().required("Please enter a title, author or genre"),

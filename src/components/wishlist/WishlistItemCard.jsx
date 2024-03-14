@@ -1,6 +1,6 @@
 import React from "react";
 import { FaTrashCan } from "react-icons/fa6";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
 
 const WishlistItemCard = ({ title, price, coverImgUrl, bookId }) => {
@@ -19,7 +19,10 @@ const WishlistItemCard = ({ title, price, coverImgUrl, bookId }) => {
         <h2 class="card-title text-base font-bold">{title}</h2>
         <div class="flex items-center justify-between mt-4">
           <span class="badge badge-accent">${price.substr(2)}</span>
-          <button class="btn btn-outline btn-error btn-sm" onClick={deleteFromWishlist}>
+          <button
+            class="btn btn-outline btn-error btn-sm"
+            onClick={deleteFromWishlist}
+          >
             <FaTrashCan />
           </button>
         </div>

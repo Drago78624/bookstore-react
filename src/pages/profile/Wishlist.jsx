@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import WishlistItemCard from "../components/WishlistItemCard";
+import WishlistItemCard from "../../components/wishlist/WishlistItemCard";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase-config";
-import { AuthContext } from "../contexts/AuthContextProvider";
+import { db } from "../../firebase-config";
+import { AuthContext } from "../../contexts/AuthContextProvider";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -17,8 +17,8 @@ const Wishlist = () => {
   };
 
   useEffect(() => {
-    getWishlistItems()
-  }, [])
+    getWishlistItems();
+  }, []);
   return (
     <div class="p-2 container max-w-[992px] mx-auto">
       <h1 class="text-3xl font-bold mb-8 mt-4">Wishlist</h1>
@@ -26,7 +26,15 @@ const Wishlist = () => {
         {wishlistItems.length === 0 && "loading..."}
         {wishlistItems.length > 0 &&
           wishlistItems.map((wishlistItem) => {
-            return <WishlistItemCard key={wishlistItem.bookId} title={wishlistItem.title} price={wishlistItem.price} coverImgUrl={wishlistItem.coverImgUrl} bookId={wishlistItem.bookId} />;
+            return (
+              <WishlistItemCard
+                key={wishlistItem.bookId}
+                title={wishlistItem.title}
+                price={wishlistItem.price}
+                coverImgUrl={wishlistItem.coverImgUrl}
+                bookId={wishlistItem.bookId}
+              />
+            );
           })}
       </div>
     </div>

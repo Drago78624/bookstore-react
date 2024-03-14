@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
-import { db } from "../firebase-config";
-import BookDetailSkeleton from "../components/BookDetailSkeleton";
-import { AuthContext } from "../contexts/AuthContextProvider";
+import { db } from "../../firebase-config";
+import BookDetailSkeleton from "../../components/books/BookDetailSkeleton";
+import { AuthContext } from "../../contexts/AuthContextProvider";
 
 const BookDetail = () => {
   const { isUserLoggedIn } = useContext(AuthContext);

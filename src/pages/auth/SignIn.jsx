@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth } from "../../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
-import Message from "../components/Message";
-import { AuthContext } from "../contexts/AuthContextProvider";
-import SignInWithGoogle from "../components/auth/SignInWithGoogle";
-import UserInput from "../components/UserInput";
+import BackButton from "../../components/BackButton";
+import Message from "../../components/Message";
+import { AuthContext } from "../../contexts/AuthContextProvider";
+import SignInWithGoogle from "../../components/auth/SignInWithGoogle";
+import UserInput from "../../components/UserInput";
 import { FaArrowRightToBracket, FaEnvelope, FaKey } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({
@@ -133,10 +133,18 @@ const SignIn = () => {
           </form>
           <SignInWithGoogle />
           <p className="text-center mt-4">
-            Don't have an account? <Link to="/signup" className="underline underline-offset-2">Sign Up</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="underline underline-offset-2">
+              Sign Up
+            </Link>
           </p>
           <p className="text-center mt-2 mb-2">
-            <Link to="/forgot-password" className="underline underline-offset-2">Forgot Password ?</Link>
+            <Link
+              to="/forgot-password"
+              className="underline underline-offset-2"
+            >
+              Forgot Password ?
+            </Link>
           </p>
           {customMsg.show && (
             <Message message={customMsg.message} type={customMsg.type} />

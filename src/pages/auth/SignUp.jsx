@@ -9,13 +9,13 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth, googleAuthProvider } from "../firebase-config";
+import { auth, googleAuthProvider } from "../../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
-import { EmailVerificationContext } from "../contexts/EmailVerificationProvider";
-import ErrorMessage from "../components/Message";
-import SignInWithGoogle from "../components/auth/SignInWithGoogle";
-import UserInput from "../components/UserInput";
+import BackButton from "../../components/BackButton";
+import { EmailVerificationContext } from "../../contexts/EmailVerificationProvider";
+import ErrorMessage from "../../components/Message";
+import SignInWithGoogle from "../../components/auth/SignInWithGoogle";
+import UserInput from "../../components/UserInput";
 import { FaCheck, FaEnvelope, FaKey, FaUser } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({
@@ -78,17 +78,6 @@ const SignUp = () => {
           message: "Email already in use, Try Logging in instead.",
         };
       });
-    }
-  };
-
-  const signInWithGoogleHandler = async () => {
-    setLoading(true);
-    try {
-      await signInWithPopup(auth, googleAuthProvider);
-      setLoading(false);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
     }
   };
 

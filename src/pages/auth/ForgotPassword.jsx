@@ -7,12 +7,12 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth } from "../../firebase-config";
 import { Link, useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
-import Message from "../components/Message";
-import { AuthContext } from "../contexts/AuthContextProvider";
-import UserInput from "../components/UserInput";
+import BackButton from "../../components/BackButton";
+import Message from "../../components/Message";
+import { AuthContext } from "../../contexts/AuthContextProvider";
+import UserInput from "../../components/UserInput";
 import { FaEnvelope, FaPaperPlane } from "react-icons/fa6";
 
 const formSchema = yup.object().shape({

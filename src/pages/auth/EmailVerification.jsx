@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { EmailVerificationContext } from "../contexts/EmailVerificationProvider";
+import { EmailVerificationContext } from "../../contexts/EmailVerificationProvider";
 
 const EmailVerification = ({ userEmail }) => {
   // const { isEligibleForEmailVerification, clearEmailVerificationState } =

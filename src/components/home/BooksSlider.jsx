@@ -4,8 +4,8 @@ import "@splidejs/react-splide/css";
 import "@splidejs/react-splide/css/core";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { db } from "../../firebase-config";
-import BookCard from "../BookCard";
-import BookCardSkeleton from "../BookCardSkeleton";
+import BookCard from "../books/BookCard";
+import BookCardSkeleton from "../books/BookCardSkeleton";
 
 const BooksSlider = ({ heading }) => {
   const [bookCards, setBookCards] = useState([]);
@@ -64,14 +64,14 @@ const BooksSlider = ({ heading }) => {
       >
         {!bookCards.length &&
           [...Array(10).keys()].map((i) => (
-            <SplideSlide>
-              <BookCardSkeleton key={i} />
+            <SplideSlide key={i}>
+              <BookCardSkeleton />
             </SplideSlide>
           ))}
         {bookCards.length &&
           bookCards.map((bookCard) => {
             return (
-              <SplideSlide>
+              <SplideSlide key={bookCard.bookId}>
                 <BookCard
                   key={bookCard.bookId}
                   title={bookCard.title}

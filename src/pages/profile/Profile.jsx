@@ -1,5 +1,5 @@
 import React from "react";
-import PaymentMethodForm from "../components/PaymentMethodForm";
+import PaymentMethodForm from "../../components/profile/PaymentMethodForm";
 
 const Profile = () => {
   return (
@@ -33,7 +33,9 @@ const Profile = () => {
         </div>
         <div className="collapse collapse-arrow bg-base-200 mb-2">
           <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">Password Reset</div>
+          <div className="collapse-title text-xl font-medium">
+            Password Reset
+          </div>
           <div className="collapse-content">
             <p>hello</p>
           </div>

@@ -7,18 +7,18 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import ErrorPage from "./pages/ErrorPage.jsx";
-import SignIn from "./pages/SignIn.jsx";
-import SignUp from "./pages/SignUp.jsx";
-import Root from "./pages/Root.jsx";
-import MainLayout from "./pages/MainLayout.jsx";
-import EmailVerification from "./pages/EmailVerification.jsx";
-import Profile from "./pages/Profile.jsx";
-import AuthRequired from "./components/auth/AuthRequired.jsx";
-import LoggedIn from "./components/auth/LoggedIn.jsx";
-import ForgotPassword from "./pages/ForgotPassword.jsx";
-import Books from "./pages/Books.jsx";
-import BookDetail from "./pages/BookDetail.jsx";
-import Wishlist from "./pages/Wishlist.jsx";
+import SignIn from "./pages/auth/SignIn.jsx";
+import SignUp from "./pages/auth/SignUp.jsx";
+import Root from "./pages/layouts/Root.jsx";
+import MainLayout from "./pages/layouts/MainLayout.jsx";
+import EmailVerification from "./pages/auth/EmailVerification.jsx";
+import Profile from "./pages/profile/Profile.jsx";
+import AuthRequired from "./pages/layouts/AuthRequired.jsx";
+import LoggedIn from "./pages/layouts/LoggedIn.jsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
+import Books from "./pages/books/Books.jsx";
+import BookDetail from "./pages/books/BookDetail.jsx";
+import Wishlist from "./pages/profile/Wishlist.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
