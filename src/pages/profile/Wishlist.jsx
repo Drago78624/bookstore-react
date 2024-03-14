@@ -18,7 +18,6 @@ const Wishlist = () => {
   const getWishlistItems = async () => {
     // const wishlistRef = collection(db, "wishlist");
     // const q = query(wishlistRef, where("uid", "==", userUid));
-    
     // const querySnapshot = await getDocs(q);
     // const fetchedWishlistItems = querySnapshot.docs.map((doc) => doc.data());
     // setWishlistItems(fetchedWishlistItems);
@@ -29,20 +28,26 @@ const Wishlist = () => {
     // getWishlistItems();
     const wishlistRef = collection(db, "wishlist");
     const q = query(wishlistRef, where("uid", "==", userUid));
-    setLoading(true)
+    setLoading(true);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const fetchedWishlistItems = querySnapshot.docs.map((doc) => doc.data());
       setWishlistItems(fetchedWishlistItems);
-      setLoading(false)
+      setLoading(false);
     });
-    return unsubscribe
+    return unsubscribe;
   }, []);
   return (
     <div className="p-2 container max-w-[992px] mx-auto">
       <h1 className="text-3xl font-bold mb-8 mt-4">Wishlist</h1>
+      {loading && (
+        <div className="flex justify-center mb-4">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
+      {wishlistItems.length === 0 && !loading && (
+        <h1 className="text-center text-3xl mb-4">No books found</h1>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {loading && "loading..."}
-        {wishlistItems.length === 0 && !loading && <h1>No books found</h1>}
         {wishlistItems.length > 0 &&
           wishlistItems.map((wishlistItem) => {
             return (

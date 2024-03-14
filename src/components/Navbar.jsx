@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import SignOutBtn from "./auth/SignOutBtn";
 import { AuthContext } from "../contexts/AuthContextProvider";
 import DarkModeBtn from "./DarkModeBtn";
-import { FaRegUser } from "react-icons/fa6";
+import { FaHeart, FaRegUser } from "react-icons/fa6";
 
 const Navbar = () => {
   const { isUserLoggedIn } = useContext(AuthContext);

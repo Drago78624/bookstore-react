@@ -53,11 +53,13 @@ const BookCard = ({ title, price, imgUrl, description, bookId }) => {
 
   return (
     <div className="card w-full max-w-72 shadow-md rounded-lg overflow-hidden mx-auto my-4">
-      <img
-        src={imgUrl}
-        alt="Book cover"
-        className="w-full h-48 object-contain rounded-t-lg"
-      />
+      <Link to={`/book-detail/${bookId}`}>
+        <img
+          src={imgUrl}
+          alt="Book cover"
+          className="w-full h-48 object-contain rounded-t-lg"
+        />
+      </Link>
       <div className="card-body p-4 flex flex-col justify-between">
         <div className="text-center">
           <Link
